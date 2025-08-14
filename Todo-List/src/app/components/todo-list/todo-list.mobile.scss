@@ -1,0 +1,283 @@
+// No Data State
+.no-data {
+  text-align: center;
+  padding: 60px 24px;
+  color: #666;
+
+  .no-data-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 24px;
+    opacity: 0.5;
+    color: #1976d2;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    color: #333;
+  }
+
+  p {
+    font-size: 1rem;
+    margin-bottom: 32px;
+    color: #666;
+  }
+
+  button {
+    padding: 12px 32px;
+    border-radius: 8px;
+  }
+}
+
+// Pagination
+.paginator {
+  border-top: 1px solid #e0e0e0;
+  background: #fafafa;
+  border-radius: 0 0 16px 16px;
+}
+
+// Mobile Styles
+.mobile-view {
+  display: none;
+}
+
+.mobile-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .mobile-todo-card {
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+
+    .mobile-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 16px 0;
+
+      .status-priority {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .mobile-priority {
+          font-size: 0.75rem;
+        }
+      }
+
+      .mobile-actions {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .mobile-card-content {
+      padding: 16px;
+
+      .mobile-task-title {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #333;
+        margin: 0 0 8px 0;
+
+        &.completed {
+          text-decoration: line-through;
+          color: #999;
+        }
+      }
+
+      .mobile-task-desc {
+        color: #666;
+        font-style: italic;
+        margin-bottom: 16px;
+        line-height: 1.4;
+      }
+
+      .mobile-person {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+        padding: 12px;
+        background: #f8f9fa;
+        border-radius: 8px;
+
+        .mobile-person-icon {
+          color: #1976d2;
+        }
+
+        .mobile-person-info {
+          .mobile-person-name {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 2px;
+          }
+
+          .mobile-person-email {
+            font-size: 0.85rem;
+            color: #666;
+          }
+        }
+      }
+
+      .mobile-dates {
+        margin-bottom: 12px;
+
+        .mobile-date-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 6px;
+          font-size: 0.9rem;
+          color: #666;
+
+          mat-icon {
+            font-size: 1rem;
+            color: #1976d2;
+          }
+        }
+      }
+
+      .mobile-labels {
+        .mobile-tech-chip {
+          background: #e3f2fd;
+          color: #1976d2;
+          font-size: 0.7rem;
+          margin: 2px 4px 2px 0;
+        }
+      }
+    }
+  }
+}
+
+.mobile-no-data {
+  text-align: center;
+  padding: 60px 24px;
+  color: #666;
+
+  .mobile-no-data-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 16px;
+    opacity: 0.5;
+    color: #1976d2;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+    color: #333;
+  }
+
+  p {
+    color: #666;
+  }
+}
+
+.mobile-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  margin-top: 16px;
+  border: 1px solid #e0e0e0;
+
+  .mobile-page-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 8px;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  .mobile-page-info {
+    font-weight: 500;
+    color: #666;
+  }
+}
+
+.delete-menu-item {
+  color: #f44336;
+}
+
+@media (max-width: 768px) {
+  .desktop-add-section {
+    display: none;
+  }
+
+  .desktop-view {
+    display: none;
+  }
+
+  .mobile-view {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-todo-card {
+    .mobile-card-content {
+      padding: 12px;
+
+      .mobile-task-title {
+        font-size: 1rem;
+      }
+
+      .mobile-task-desc {
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  .mobile-pagination {
+    padding: 16px;
+
+    .mobile-page-btn {
+      font-size: 0.85rem;
+
+      mat-icon {
+        font-size: 1rem;
+      }
+    }
+
+    .mobile-page-info {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Print Styles
+@media print {
+  .page-header,
+  .filters-card,
+  .desktop-add-section,
+  .actions-container,
+  .card-actions,
+  .mobile-actions,
+  .paginator,
+  .mobile-pagination {
+    display: none !important;
+  }
+
+  .todo-list-container {
+    padding: 0;
+    background: white;
+  }
+
+  .tasks-container {
+    .table-card,
+    .mobile-todo-card {
+      box-shadow: none;
+      border: 1px solid #ccc;
+    }
+  }
+}

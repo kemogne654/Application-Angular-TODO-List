@@ -1,0 +1,245 @@
+.todo-list-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+// Page Header
+.page-header {
+  margin-bottom: 24px;
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #1976d2, #42a5f5);
+    padding: 24px 32px;
+    border-radius: 16px;
+    color: white;
+    box-shadow: 0 8px 32px rgba(25, 118, 210, 0.3);
+
+    .title-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .header-icon {
+        font-size: 2rem;
+        width: 2rem;
+        height: 2rem;
+      }
+
+      .page-title {
+        font-size: 2rem;
+        font-weight: 300;
+        margin: 0;
+        letter-spacing: -0.5px;
+      }
+    }
+
+    .fab-add-btn {
+      width: 56px;
+      height: 56px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+      }
+
+      mat-icon {
+        font-size: 1.5rem;
+        color: white;
+      }
+    }
+  }
+}
+
+// Filters Card
+.filters-card {
+  margin-bottom: 24px;
+  border-radius: 16px;
+  overflow: hidden;
+
+  .filters-section {
+    .filter-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 20px;
+
+      .search-field {
+        min-width: 280px;
+
+        mat-icon {
+          color: #1976d2;
+        }
+      }
+
+      .filter-field {
+        min-width: 180px;
+      }
+
+      .clear-filters-btn {
+        height: 48px;
+        padding: 0 24px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: #1976d2;
+          background: rgba(25, 118, 210, 0.04);
+        }
+      }
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 32px;
+      padding: 16px 0;
+      border-top: 1px solid #e0e0e0;
+    }
+  }
+}
+
+// Tasks Container
+.tasks-container {
+  .table-card {
+    border-radius: 16px;
+    overflow: hidden;
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 24px 0;
+    }
+
+    .table-container {
+      padding: 24px;
+      overflow-x: auto;
+
+      .todos-table {
+        width: 100%;
+        background: white;
+
+        .header-cell {
+          background: #f8f9fa;
+          font-weight: 600;
+          color: #333;
+          padding: 20px 16px;
+          border-bottom: 2px solid #e0e0e0;
+
+          &.status-col {
+            width: 80px;
+          }
+        }
+
+        .data-cell {
+          padding: 20px 16px;
+          vertical-align: top;
+          border-bottom: 1px solid #f0f0f0;
+        }
+
+        .table-row {
+          transition: all 0.3s ease;
+
+          &:hover {
+            background: #f8f9fa;
+            transform: scale(1.01);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .filters-section .filter-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    .search-field {
+      grid-column: 1 / -1;
+      min-width: unset;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .todo-list-container {
+    padding: 16px;
+  }
+
+  .page-header .header-content {
+    padding: 20px;
+    border-radius: 12px;
+
+    .title-section {
+      .header-icon {
+        font-size: 1.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      .page-title {
+        font-size: 1.5rem;
+      }
+    }
+
+    .fab-add-btn {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  .filters-section .filter-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    .search-field,
+    .filter-field {
+      width: 100%;
+      min-width: unset;
+    }
+
+    .clear-filters-btn {
+      justify-self: start;
+    }
+  }
+
+  .stats-row {
+    flex-direction: column;
+    gap: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .todo-list-container {
+    padding: 12px;
+  }
+
+  .page-header .header-content {
+    padding: 16px;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+
+    .title-section {
+      justify-content: center;
+
+      .page-title {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}

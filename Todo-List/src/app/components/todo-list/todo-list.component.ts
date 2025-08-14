@@ -40,7 +40,11 @@ import { TodoModalComponent } from '../todo-modal/todo-modal.component';
     MatTooltipModule,
   ],
   templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.scss'],
+  styleUrls: [
+    './todo-list.layout.scss',
+    './todo-list.component.scss',
+    './todo-list.mobile.scss'
+  ],
 })
 export class TodoListComponent implements OnInit {
   todos: Todo[] = [];
