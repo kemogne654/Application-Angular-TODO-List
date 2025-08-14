@@ -1,0 +1,12 @@
+{
+  "buildCommand": "cd Todo-List && npm run build",
+  "outputDirectory": "Todo-List/dist/todo-list",
+  "installCommand": "cd Todo-List && npm install",
+  "framework": "angular",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
