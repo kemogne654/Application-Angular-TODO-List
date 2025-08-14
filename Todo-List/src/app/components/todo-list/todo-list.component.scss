@@ -1,269 +1,459 @@
-.task-content {
-  .task-title {
-    font-weight: 500;
-    font-size: 1.1rem;
-    color: #333;
-    margin-bottom: 4px;
-    transition: all 0.3s ease;
-
-    &.completed {
-      text-decoration: line-through;
-      color: #999;
-    }
-  }
-
-  .task-description {
-    font-size: 0.9rem;
-    color: #666;
-    font-style: italic;
-    line-height: 1.4;
-  }
+/* Base styles (mobile-first) */
+.todo-list-container {
+  padding: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #f8f9fa;
+  min-height: 100vh;
 }
 
-// Person Info
-.person-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  .person-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #1976d2, #42a5f5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    mat-icon {
-      color: white;
-      font-size: 1.2rem;
-    }
-  }
-
-  .person-details {
-    .person-name {
-      font-weight: 500;
-      color: #333;
-      margin-bottom: 2px;
-    }
-
-    .person-email {
-      font-size: 0.85rem;
-      color: #666;
-    }
-  }
+/* Mobile View (default) */
+.mobile-view {
+  display: block;
 }
 
-// Dates Info
-.dates-info {
-  .date-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
-    font-size: 0.9rem;
-
-    .date-icon {
-      font-size: 1rem;
-      color: #666;
-
-      &.completed {
-        color: #4caf50;
-      }
-    }
-
-    span {
-      &.completed {
-        color: #4caf50;
-        font-weight: 500;
-      }
-    }
-  }
+/* Desktop View (hidden by default) */
+.desktop-view {
+  display: none;
 }
 
-// Status Icons
-.status-completed {
-  color: #4caf50 !important;
-  font-size: 1.5rem;
-}
-
-.status-pending {
-  color: #ff9800 !important;
-  font-size: 1.5rem;
-}
-
-// Labels and Chips
-.labels-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-
-  .tech-chip {
-    background: #e3f2fd;
-    color: #1976d2;
-    border: 1px solid #bbdefb;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-}
-
-// Priority Chips
-mat-chip {
-  &[color="primary"] {
-    background: #4caf50;
-    color: white;
+/* Desktop styles (min-width: 769px) */
+@media (min-width: 769px) {
+  .todo-list-container {
+    padding: 20px;
   }
 
-  &[color="accent"] {
-    background: #ff9800;
-    color: white;
+  .mobile-view {
+    display: none;
   }
 
-  &[color="warn"] {
-    background: #f44336;
-    color: white;
+  .desktop-view {
+    display: block;
   }
-}
 
-// Actions Container
-.actions-container {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+  // Page Header
+  .page-header {
+    margin-bottom: 24px;
 
-  button {
-    transition: all 0.3s ease;
-
-    &:hover {
-      transform: scale(1.1);
-    }
-  }
-}
-
-// Card Views
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 24px;
-  padding: 24px;
-
-  .todo-card {
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    border: 1px solid #e0e0e0;
-
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-      border-color: #1976d2;
-    }
-
-    .task-avatar {
-      background: #1976d2;
-
-      &.completed {
-        background: #4caf50;
-      }
-
-      mat-icon {
-        color: white;
-      }
-    }
-
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 500;
-
-      &.completed {
-        text-decoration: line-through;
-        color: #999;
-      }
-    }
-
-    .priority-chip {
-      margin-top: 8px;
-    }
-
-    .task-desc {
-      color: #666;
-      font-style: italic;
-      margin-bottom: 16px;
-      line-height: 1.5;
-    }
-
-    .card-person {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
-      padding: 12px;
-      background: #f8f9fa;
-      border-radius: 8px;
-
-      .person-icon {
-        color: #1976d2;
-      }
-
-      .person-name {
-        font-weight: 500;
-        color: #333;
-      }
-
-      .person-email {
-        font-size: 0.85rem;
-        color: #666;
-      }
-    }
-
-    .card-dates {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 12px;
-
-      .date-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.9rem;
-        color: #666;
-
-        mat-icon {
-          font-size: 1rem;
-          color: #1976d2;
-        }
-      }
-    }
-
-    .card-labels {
-      margin-bottom: 16px;
-
-      .tech-chip-small {
-        background: #e3f2fd;
-        color: #1976d2;
-        font-size: 0.7rem;
-        margin-right: 4px;
-        margin-bottom: 4px;
-      }
-    }
-
-    .card-actions {
-      border-top: 1px solid #e0e0e0;
+    .header-content {
       display: flex;
       justify-content: space-between;
-      padding: 16px;
+      align-items: center;
+      background: linear-gradient(135deg, #1976d2, #42a5f5);
+      padding: 24px 32px;
+      border-radius: 16px;
+      color: white;
+      box-shadow: 0 8px 32px rgba(25, 118, 210, 0.3);
 
-      button {
+      .title-section {
         display: flex;
         align-items: center;
-        gap: 4px;
-        font-size: 0.85rem;
+        gap: 16px;
 
-        mat-icon {
-          font-size: 1rem;
+        .header-icon {
+          font-size: 2rem;
+          width: 2rem;
+          height: 2rem;
+        }
+
+        .page-title {
+          font-size: 2rem;
+          font-weight: 300;
+          margin: 0;
+          letter-spacing: -0.5px;
         }
       }
+
+      .fab-add-btn {
+        width: 56px;
+        height: 56px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.3);
+          transform: scale(1.05);
+        }
+
+        mat-icon {
+          font-size: 1.5rem;
+          color: white;
+        }
+      }
+    }
+  }
+
+  // Filters Card
+  .filters-card {
+    margin-bottom: 24px;
+    border-radius: 16px;
+    overflow: hidden;
+
+    .filters-section {
+      .filter-row {
+        display: grid;
+        grid-template-columns: 1fr auto auto auto;
+        gap: 16px;
+        align-items: end;
+        margin-bottom: 20px;
+
+        .search-field {
+          min-width: 280px;
+
+          mat-icon {
+            color: #1976d2;
+          }
+        }
+
+        .filter-field {
+          min-width: 180px;
+        }
+
+        .clear-filters-btn {
+          height: 48px;
+          padding: 0 24px;
+          border: 2px solid #e0e0e0;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+
+          &:hover {
+            border-color: #1976d2;
+            background: rgba(25, 118, 210, 0.04);
+          }
+        }
+      }
+
+      .stats-row {
+        display: flex;
+        gap: 32px;
+        padding: 16px 0;
+        border-top: 1px solid #e0e0e0;
+      }
+    }
+  }
+
+  // Tasks Container
+  .tasks-container {
+    .table-card {
+      border-radius: 16px;
+      overflow: hidden;
+
+      .table-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 24px 0;
+      }
+
+      .table-container {
+        padding: 24px;
+        overflow-x: auto;
+
+        .todos-table {
+          width: 100%;
+          background: white;
+
+          .header-cell {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+            padding: 20px 16px;
+            border-bottom: 2px solid #e0e0e0;
+
+            &.status-col {
+              width: 80px;
+            }
+          }
+
+          .data-cell {
+            padding: 20px 16px;
+            vertical-align: top;
+            border-bottom: 1px solid #f0f0f0;
+          }
+
+          .table-row {
+            transition: all 0.3s ease;
+
+            &:hover {
+              background: #f8f9fa;
+              transform: scale(1.01);
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .filters-section .filter-row {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+
+      .search-field {
+        grid-column: 1 / -1;
+        min-width: unset;
+      }
+    }
+  }
+}
+
+/* Mobile styles (max-width: 768px) */
+@media (max-width: 768px) {
+  .mobile-view {
+    display: block;
+  }
+
+  .desktop-view {
+    display: none;
+  }
+
+  .page-header .header-content {
+    padding: 20px;
+    border-radius: 12px;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+
+    .title-section {
+      flex-direction: column;
+      gap: 8px;
+
+      .header-icon {
+        font-size: 1.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      .page-title {
+        font-size: 1.5rem;
+      }
+    }
+
+    .fab-add-btn {
+      width: 48px;
+      height: 48px;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+    }
+  }
+
+  .filters-section .filter-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    .search-field,
+    .filter-field {
+      width: 100%;
+      min-width: unset;
+    }
+
+    .clear-filters-btn {
+      justify-self: start;
+    }
+  }
+
+  .stats-row {
+    flex-direction: column;
+    gap: 12px !important;
+  }
+
+  /* Mobile cards */
+  .mobile-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 8px;
+
+    .mobile-todo-card {
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+
+      .mobile-card-header {
+        padding: 12px 12px 0;
+        background: #f8f9fa;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .status-priority {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          mat-icon {
+            font-size: 1.2rem;
+          }
+
+          .mobile-priority {
+            font-size: 0.7rem;
+            height: 24px;
+          }
+        }
+
+        .mobile-actions {
+          button {
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+
+            mat-icon {
+              font-size: 1.2rem;
+            }
+          }
+        }
+      }
+
+      .mobile-card-content {
+        padding: 12px;
+
+        .mobile-task-title {
+          font-size: 1.1rem;
+          margin-bottom: 8px;
+        }
+
+        .mobile-task-desc {
+          font-size: 0.9rem;
+          margin-bottom: 12px;
+        }
+
+        .mobile-person {
+          display: flex;
+          align-items: center;
+          padding: 8px;
+          gap: 8px;
+
+          .mobile-person-icon {
+            font-size: 1.2rem;
+          }
+
+          .mobile-person-info {
+            .mobile-person-name {
+              font-size: 0.9rem;
+            }
+            .mobile-person-email {
+              font-size: 0.8rem;
+            }
+          }
+        }
+
+        .mobile-dates {
+          .mobile-date-item {
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+
+            mat-icon {
+              font-size: 1rem;
+            }
+          }
+        }
+
+        .mobile-labels {
+          margin-top: 8px;
+          display: flex;
+          flex-wrap: wrap;
+
+          .mobile-tech-chip {
+            font-size: 0.7rem;
+            height: 24px;
+            margin: 0 4px 4px 0;
+          }
+        }
+      }
+    }
+  }
+
+  .mobile-no-data {
+    padding: 40px 16px;
+    text-align: center;
+
+    .mobile-no-data-icon {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+  }
+
+  .mobile-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    margin: 16px 8px;
+    border-radius: 8px;
+    background: #f8f9fa;
+
+    .mobile-page-btn {
+      padding: 0 12px;
+      font-size: 0.85rem;
+      min-width: auto;
+
+      mat-icon {
+        font-size: 1rem;
+      }
+    }
+
+    .mobile-page-info {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+/* Small Mobile Devices (max-width: 480px) */
+@media (max-width: 480px) {
+  .todo-list-container {
+    padding: 12px;
+  }
+
+  .page-header .header-content {
+    padding: 16px;
+
+    .title-section {
+      .page-title {
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  .mobile-cards-container {
+    .mobile-todo-card {
+      .mobile-card-content {
+        .mobile-task-title {
+          font-size: 1rem;
+        }
+
+        .mobile-task-desc {
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+
+  .mobile-pagination {
+    padding: 10px 12px;
+
+    .mobile-page-btn {
+      font-size: 0.8rem;
+      padding: 0 8px;
     }
   }
 }

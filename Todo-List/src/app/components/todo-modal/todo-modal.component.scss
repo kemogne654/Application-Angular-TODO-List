@@ -3,7 +3,7 @@
   max-width: 800px;
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  max-height: 90vh;
 
   .modal-header {
     display: flex;
@@ -51,6 +51,7 @@
     flex-grow: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    margin-bottom: 16px;
 
     &::-webkit-scrollbar {
       width: 4px;
@@ -74,7 +75,7 @@
   .todo-form {
     display: flex;
     flex-direction: column;
-    min-height: 100%;
+    min-height: calc(100% - 120px);
 
     .form-section {
       margin-bottom: 24px;
@@ -134,7 +135,6 @@
     }
   }
 
-  // Form Field Styles
   mat-form-field {
     width: 100%;
     margin-bottom: 8px;
@@ -166,7 +166,6 @@
     }
   }
 
-  // Person Option Styles
   .person-option {
     display: flex;
     align-items: center;
@@ -201,7 +200,6 @@
     }
   }
 
-  // Priority Option Styles
   .priority-option {
     display: flex;
     align-items: center;
@@ -214,7 +212,6 @@
     }
   }
 
-  // Selected Labels Section
   .selected-labels {
     margin-top: 12px;
     padding: 12px;
@@ -260,7 +257,6 @@
     }
   }
 
-  // Status Checkbox
   .status-checkbox {
     .status-text {
       font-weight: 500;
@@ -276,7 +272,6 @@
     }
   }
 
-  // Modal Actions
   .modal-actions {
     display: flex;
     flex-direction: column;
@@ -286,6 +281,9 @@
     background: #f8f9fa;
     margin: 0 -16px -16px;
     flex-shrink: 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
 
     .actions-left {
       width: 100%;
@@ -366,7 +364,6 @@
   }
 }
 
-// Tablet and Desktop View
 @media (min-width: 768px) {
   .todo-modal {
     .modal-header {
@@ -474,7 +471,6 @@
   }
 }
 
-// Global modal panel class
 ::ng-deep .todo-modal-panel {
   .mat-mdc-dialog-container {
     padding: 0 !important;
@@ -487,7 +483,6 @@
   }
 }
 
-// Priority chip colors
 ::ng-deep mat-chip {
   &[color="primary"] {
     background-color: #4caf50 !important;
@@ -505,7 +500,6 @@
   }
 }
 
-// Fix for datepicker in mobile view
 ::ng-deep .mat-datepicker-content {
   @media (max-width: 600px) {
     width: 100vw !important;
@@ -519,7 +513,6 @@
   }
 }
 
-// Fix for select panel in mobile view
 ::ng-deep .mat-mdc-select-panel {
   @media (max-width: 600px) {
     max-width: 100vw !important;
