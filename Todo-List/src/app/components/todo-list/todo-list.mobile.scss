@@ -1,63 +1,137 @@
-/* Mobile-first base styles */
+/* Mobile-first responsive styles */
 .todo-list-container {
   padding: 16px;
   max-width: 1400px;
   margin: 0 auto;
   background: #f8f9fa;
   min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
-/* Mobile View - Default visible */
+/* Filters Card - Mobile responsive */
+.filters-card {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  .filters-section {
+    padding: 16px;
+
+    .filter-row {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+
+      /* Search field - responsive */
+      .search-field {
+        width: 100%;
+
+        .mat-form-field-wrapper {
+          padding-bottom: 0;
+        }
+
+        .mat-form-field-infix {
+          width: 100%;
+        }
+
+        input {
+          font-size: 16px; /* Better mobile input size */
+        }
+      }
+
+      /* Filter fields - responsive */
+      .filter-field {
+        width: 100%;
+
+        .mat-form-field-wrapper {
+          padding-bottom: 0;
+        }
+
+        .mat-select-value {
+          font-size: 16px; /* Better mobile readability */
+        }
+      }
+
+      /* Clear filters button - responsive */
+      .clear-filters-btn {
+        width: 100%;
+        margin-top: 8px;
+        height: 48px;
+
+        .mat-icon {
+          margin-right: 8px;
+        }
+      }
+    }
+
+    /* Stats row - responsive */
+    .stats-row {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .stat-icon {
+          font-size: 1.2rem;
+          width: 1.2rem;
+          height: 1.2rem;
+
+          &.completed {
+            color: #4caf50;
+          }
+
+          &.pending {
+            color: #ff9800;
+          }
+        }
+
+        .stat-text {
+          font-size: 0.95rem;
+        }
+      }
+    }
+  }
+}
+
+/* Mobile View */
 .mobile-view {
   display: block;
-  position: relative;
-  z-index: 1;
-  background: transparent;
 
   .mobile-add-section {
-    padding: 16px 0;
-    margin-bottom: 16px;
+    margin: 16px 0;
 
     .mobile-add-btn {
       width: 100%;
       height: 48px;
-      font-weight: 500;
+      font-size: 1rem;
     }
   }
 
   .mobile-cards-container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 0;
-    margin: 0;
-    background: transparent;
-    position: relative;
-    z-index: 2;
+    gap: 12px;
 
     .mobile-todo-card {
       background: white;
       border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-      border: 1px solid #e0e0e0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      position: relative;
-      z-index: 3;
-
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-      }
 
       .mobile-card-header {
-        padding: 16px;
+        padding: 12px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: white;
         border-bottom: 1px solid #f0f0f0;
 
         .status-priority {
@@ -68,15 +142,11 @@
           mat-icon {
             font-size: 1.4rem;
             color: #1976d2;
-            width: 1.4rem;
-            height: 1.4rem;
           }
 
           .mobile-priority {
             font-size: 0.8rem;
             height: 26px;
-            display: flex;
-            align-items: center;
           }
         }
 
@@ -87,69 +157,48 @@
           button {
             width: 40px;
             height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1976d2;
 
             mat-icon {
               font-size: 1.4rem;
-              width: 1.4rem;
-              height: 1.4rem;
             }
           }
         }
       }
 
       .mobile-card-content {
-        padding: 16px;
-        background: white;
+        padding: 12px;
 
         .mobile-task-title {
-          font-size: 1.2rem;
-          font-weight: 500;
-          margin: 0 0 12px 0;
-          color: #333;
-          line-height: 1.3;
-
-          &.completed {
-            color: #757575;
-            text-decoration: line-through;
-          }
+          font-size: 1.1rem;
+          margin-bottom: 8px;
         }
 
         .mobile-task-desc {
-          font-size: 0.95rem;
-          color: #616161;
-          margin: 0 0 16px 0;
-          line-height: 1.4;
+          font-size: 0.9rem;
+          margin-bottom: 12px;
         }
 
         .mobile-person {
           display: flex;
           align-items: center;
-          gap: 12px;
-          padding: 12px;
-          background: #f5f5f5;
+          gap: 8px;
+          padding: 8px;
+          background: #f8f8f8;
           border-radius: 8px;
-          margin-bottom: 16px;
+          margin-bottom: 12px;
 
           .mobile-person-icon {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #1976d2;
-            width: 1.4rem;
-            height: 1.4rem;
           }
 
           .mobile-person-info {
             .mobile-person-name {
-              font-size: 0.95rem;
-              font-weight: 500;
-              color: #333;
+              font-size: 0.9rem;
             }
             .mobile-person-email {
-              font-size: 0.85rem;
-              color: #616161;
+              font-size: 0.8rem;
+              color: #666;
             }
           }
         }
@@ -157,21 +206,18 @@
         .mobile-dates {
           display: flex;
           flex-direction: column;
-          gap: 8px;
-          margin-bottom: 16px;
+          gap: 6px;
+          margin-bottom: 12px;
 
           .mobile-date-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            color: #424242;
+            gap: 6px;
+            font-size: 0.85rem;
 
             mat-icon {
-              font-size: 1.2rem;
+              font-size: 1rem;
               color: #1976d2;
-              width: 1.2rem;
-              height: 1.2rem;
             }
           }
         }
@@ -182,11 +228,8 @@
           gap: 6px;
 
           .mobile-tech-chip {
-            font-size: 0.75rem;
-            height: 26px;
-            background: #e0e0e0;
-            color: #424242;
-            font-weight: 500;
+            font-size: 0.7rem;
+            height: 24px;
           }
         }
       }
@@ -199,33 +242,29 @@
     background: white;
     border-radius: 12px;
     margin-top: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
     .mobile-no-data-icon {
       font-size: 3rem;
-      width: 3rem;
-      height: 3rem;
       color: #bdbdbd;
       margin-bottom: 16px;
     }
 
     h3 {
-      font-size: 1.3rem;
-      color: #424242;
-      margin: 0 0 8px 0;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
     }
 
     p {
-      font-size: 0.95rem;
-      color: #757575;
-      margin: 0 0 24px 0;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      color: #666;
     }
 
     .mobile-add-btn {
       width: 100%;
       max-width: 280px;
       margin: 0 auto;
-      height: 48px;
     }
   }
 
@@ -235,61 +274,63 @@
     align-items: center;
     gap: 16px;
     padding: 16px;
-    margin: 24px 0;
+    margin: 16px 0;
     background: white;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
     .mobile-page-btn {
-      padding: 0 16px;
+      padding: 0 12px;
       height: 40px;
       font-size: 0.9rem;
-      font-weight: 500;
-      min-width: auto;
       display: flex;
       align-items: center;
       gap: 4px;
 
       mat-icon {
         font-size: 1.2rem;
-        width: 1.2rem;
-        height: 1.2rem;
-      }
-
-      &[disabled] {
-        opacity: 0.5;
       }
     }
 
     .mobile-page-info {
       font-size: 0.9rem;
-      color: #616161;
-      font-weight: 500;
       min-width: 60px;
       text-align: center;
     }
   }
 }
 
-/* Desktop View - Hidden by default */
+/* Desktop View - Hidden on mobile */
 .desktop-view {
   display: none;
 }
 
 /* Responsive adjustments for tablet */
-@media (min-width: 600px) and (max-width: 768px) {
-  .mobile-view {
-    .mobile-cards-container {
-      .mobile-todo-card {
-        .mobile-card-content {
-          .mobile-task-title {
-            font-size: 1.3rem;
-          }
+@media (min-width: 600px) {
+  .filters-card {
+    .filters-section {
+      .filter-row {
+        flex-direction: row;
+        flex-wrap: wrap;
 
-          .mobile-task-desc {
-            font-size: 1rem;
-          }
+        .search-field {
+          flex: 1 1 100%;
         }
+
+        .filter-field {
+          flex: 1 1 calc(50% - 6px);
+        }
+
+        .clear-filters-btn {
+          flex: 0 0 auto;
+          width: auto;
+          margin-top: 0;
+        }
+      }
+
+      .stats-row {
+        flex-direction: row;
+        justify-content: space-between;
       }
     }
   }
@@ -306,31 +347,40 @@
   }
 }
 
-/* Fix for potential overlay issues */
-body {
-  overflow-x: hidden;
-  position: relative;
+/* Input field fixes for all screen sizes */
+.mat-form-field {
+  width: 100%;
 
-  &::before,
-  &::after {
-    content: none !important;
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+
+  .mat-form-field-infix {
+    width: auto;
+    min-width: 0;
+  }
+
+  input,
+  .mat-select-value {
+    font-size: 16px !important; /* Ensures proper mobile input sizing */
   }
 }
 
-/* Ensure no Material overlays are causing issues */
-.cdk-overlay-container {
-  z-index: 1000 !important;
+/* Ensure no overflow issues */
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
 }
 
-/* Debug styles (remove in production) */
-.debug-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 0, 0, 0.05);
-  pointer-events: none;
-  z-index: 9999;
-  display: none;
+/* Fix for Material form field spacing */
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
 }
+
+/* Debug border (remove in production) */
+/*
+* {
+  outline: 1px solid rgba(255,0,0,0.1);
+}
+*/
