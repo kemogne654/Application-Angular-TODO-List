@@ -30,13 +30,7 @@
               }
             ],
             "styles": ["src/styles.scss"],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            },
-            "prerender": false
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -76,6 +70,11 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
+              "server": "src/main.server.ts",
+              "outputMode": "server",
+              "ssr": {
+                "entry": "src/server.ts"
+              },
               "prerender": true
             },
             "development": {
