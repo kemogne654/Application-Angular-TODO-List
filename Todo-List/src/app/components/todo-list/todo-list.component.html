@@ -384,125 +384,140 @@
       </mat-paginator>
     </mat-card>
 
-    <!-- Mobile Card View -->
-    <div class="mobile-view">
-      <div class="mobile-cards-container">
-        <mat-card
-          *ngFor="let todo of paginatedTodos"
-          class="mobile-todo-card"
-          elevation="2"
-        >
-          <div class="mobile-card-header">
-            <div class="status-priority">
-              <mat-icon
-                [class]="todo.completed ? 'status-completed' : 'status-pending'"
-              >
-                {{ todo.completed ? "check_circle" : "schedule" }}
-              </mat-icon>
-              <mat-chip
-                [color]="getPriorityColor(todo.priority)"
-                selected
-                class="mobile-priority"
-              >
-                {{ todo.priority }}
-              </mat-chip>
-            </div>
-            <div class="mobile-actions">
-              <button mat-icon-button (click)="toggleComplete(todo)">
-                <mat-icon>{{ todo.completed ? "undo" : "check" }}</mat-icon>
-              </button>
-              <button mat-icon-button [matMenuTriggerFor]="mobileMenu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #mobileMenu="matMenu">
-                <button mat-menu-item (click)="openEditDialog(todo)">
-                  <mat-icon>edit</mat-icon>
-                  Modifier
-                </button>
-                <button
-                  mat-menu-item
-                  (click)="deleteTodo(todo)"
-                  class="delete-menu-item"
-                >
-                  <mat-icon>delete</mat-icon>
-                  Supprimer
-                </button>
-              </mat-menu>
-            </div>
+   <!-- Mobile Card View -->
+<div class="mobile-view">
+  <!-- Mobile Add Button -->
+  <div class="mobile-add-section">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="openAddDialog()"
+      class="mobile-add-btn"
+    >
+      <mat-icon>add_task</mat-icon>
+      Ajouter une tâche
+    </button>
+  </div>
+
+  <div class="mobile-cards-container">
+    <mat-card
+      *ngFor="let todo of paginatedTodos"
+      class="mobile-todo-card"
+      elevation="2"
+    >
+      <div class="mobile-card-header">
+        <div class="status-priority">
+          <mat-icon
+            [class]="todo.completed ? 'status-completed' : 'status-pending'"
+          >
+            {{ todo.completed ? "check_circle" : "schedule" }}
+          </mat-icon>
+          <mat-chip
+            [color]="getPriorityColor(todo.priority)"
+            selected
+            class="mobile-priority"
+          >
+            {{ todo.priority }}
+          </mat-chip>
+        </div>
+        <div class="mobile-actions">
+          <button mat-icon-button (click)="toggleComplete(todo)">
+            <mat-icon>{{ todo.completed ? "undo" : "check" }}</mat-icon>
+          </button>
+          <button mat-icon-button [matMenuTriggerFor]="mobileMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #mobileMenu="matMenu">
+            <button mat-menu-item (click)="openEditDialog(todo)">
+              <mat-icon>edit</mat-icon>
+              Modifier
+            </button>
+            <button
+              mat-menu-item
+              (click)="deleteTodo(todo)"
+              class="delete-menu-item"
+            >
+              <mat-icon>delete</mat-icon>
+              Supprimer
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+
+      <div class="mobile-card-content">
+        <h3 class="mobile-task-title" [class.completed]="todo.completed">
+          {{ todo.titre }}
+        </h3>
+        <p class="mobile-task-desc" *ngIf="todo.description">
+          {{ todo.description }}
+        </p>
+
+        <div class="mobile-person">
+          <mat-icon class="mobile-person-icon">person</mat-icon>
+          <div class="mobile-person-info">
+            <div class="mobile-person-name">{{ todo.person.name }}</div>
+            <div class="mobile-person-email">{{ todo.person.email }}</div>
           </div>
+        </div>
 
-          <div class="mobile-card-content">
-            <h3 class="mobile-task-title" [class.completed]="todo.completed">
-              {{ todo.titre }}
-            </h3>
-            <p class="mobile-task-desc" *ngIf="todo.description">
-              {{ todo.description }}
-            </p>
-
-            <div class="mobile-person">
-              <mat-icon class="mobile-person-icon">person</mat-icon>
-              <div class="mobile-person-info">
-                <div class="mobile-person-name">{{ todo.person.name }}</div>
-                <div class="mobile-person-email">{{ todo.person.email }}</div>
-              </div>
-            </div>
-
-            <div class="mobile-dates">
-              <div class="mobile-date-item">
-                <mat-icon>schedule</mat-icon>
-                <span>{{ formatDate(todo.startDate) }}</span>
-              </div>
-              <div class="mobile-date-item" *ngIf="todo.endDate">
-                <mat-icon>event</mat-icon>
-                <span>{{ formatDate(todo.endDate) }}</span>
-              </div>
-            </div>
-
-            <div class="mobile-labels">
-              <mat-chip
-                *ngFor="let label of todo.labels"
-                class="mobile-tech-chip"
-              >
-                {{ label }}
-              </mat-chip>
-            </div>
+        <div class="mobile-dates">
+          <div class="mobile-date-item">
+            <mat-icon>schedule</mat-icon>
+            <span>{{ formatDate(todo.startDate) }}</span>
           </div>
-        </mat-card>
+          <div class="mobile-date-item" *ngIf="todo.endDate">
+            <mat-icon>event</mat-icon>
+            <span>{{ formatDate(todo.endDate) }}</span>
+          </div>
+        </div>
+
+        <div class="mobile-labels">
+          <mat-chip
+            *ngFor="let label of todo.labels"
+            class="mobile-tech-chip"
+          >
+            {{ label }}
+          </mat-chip>
+        </div>
       </div>
+    </mat-card>
+  </div>
 
-      <!-- Mobile No Data -->
-      <div *ngIf="paginatedTodos.length === 0" class="mobile-no-data">
-        <mat-icon class="mobile-no-data-icon">assignment_late</mat-icon>
-        <h3>Aucune tâche</h3>
-        <p>Ajoutez votre première tâche</p>
-      </div>
+  <!-- Mobile No Data -->
+  <div *ngIf="paginatedTodos.length === 0" class="mobile-no-data">
+    <mat-icon class="mobile-no-data-icon">assignment_late</mat-icon>
+    <h3>Aucune tâche</h3>
+    <p>Ajoutez votre première tâche</p>
+    <button mat-raised-button color="primary" (click)="openAddDialog()" class="mobile-add-btn">
+      <mat-icon>add_task</mat-icon>
+      Ajouter une tâche
+    </button>
+  </div>
 
-      <!-- Mobile Pagination -->
-      <div class="mobile-pagination" *ngIf="paginatedTodos.length > 0">
-        <button
-          mat-stroked-button
-          [disabled]="pageIndex === 0"
-          (click)="previousPage()"
-          class="mobile-page-btn"
-        >
-          <mat-icon>chevron_left</mat-icon>
-          Précédent
-        </button>
+  <!-- Mobile Pagination -->
+  <div class="mobile-pagination" *ngIf="paginatedTodos.length > 0">
+    <button
+      mat-stroked-button
+      [disabled]="pageIndex === 0"
+      (click)="previousPage()"
+      class="mobile-page-btn"
+    >
+      <mat-icon>chevron_left</mat-icon>
+      Précédent
+    </button>
 
-        <span class="mobile-page-info">
-          {{ pageIndex + 1 }} / {{ getTotalPages() }}
-        </span>
+    <span class="mobile-page-info">
+      {{ pageIndex + 1 }} / {{ getTotalPages() }}
+    </span>
 
-        <button
-          mat-stroked-button
-          [disabled]="pageIndex >= getTotalPages() - 1"
-          (click)="nextPage()"
-          class="mobile-page-btn"
-        >
-          Suivant
-          <mat-icon>chevron_right</mat-icon>
-        </button>
-      </div>
-    </div>
+    <button
+      mat-stroked-button
+      [disabled]="pageIndex >= getTotalPages() - 1"
+      (click)="nextPage()"
+      class="mobile-page-btn"
+    >
+      Suivant
+      <mat-icon>chevron_right</mat-icon>
+    </button>
   </div>
 </div>
