@@ -1,12 +1,21 @@
 {
-  "buildCommand": "cd Todo-List && npm run build",
-  "outputDirectory": "Todo-List/dist/todo-list",
-  "installCommand": "cd Todo-List && npm install",
-  "framework": "angular",
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "Todo-List/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/todo-list/browser"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
