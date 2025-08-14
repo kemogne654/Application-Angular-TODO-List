@@ -1,0 +1,508 @@
+<div class="todo-list-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="title-section">
+        <mat-icon class="header-icon">assignment</mat-icon>
+        <h1 class="page-title">Gestion des Tâches</h1>
+      </div>
+      <button
+        mat-fab
+        color="primary"
+        (click)="openAddDialog()"
+        class="fab-add-btn"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters Card -->
+  <mat-card class="filters-card" elevation="2">
+    <mat-card-content>
+      <div class="filters-section">
+        <!-- Search and Filter Row -->
+        <div class="filter-row">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Rechercher</mat-label>
+            <input
+              matInput
+              [(ngModel)]="searchText"
+              (ngModelChange)="applyFilters()"
+              placeholder="Titre, personne, description..."
+            />
+            <mat-icon matSuffix color="primary">search</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Priorité</mat-label>
+            <mat-select
+              [(ngModel)]="selectedPriority"
+              (ngModelChange)="applyFilters()"
+            >
+              <mat-option value="">Toutes</mat-option>
+              <mat-option
+                *ngFor="let priority of priorities"
+                [value]="priority"
+              >
+                <div class="priority-option">
+                  <mat-chip
+                    [color]="getPriorityColor(priority)"
+                    selected
+                    disabled
+                  >
+                    {{ priority }}
+                  </mat-chip>
+                </div>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Label</mat-label>
+            <mat-select
+              [(ngModel)]="selectedLabel"
+              (ngModelChange)="applyFilters()"
+            >
+              <mat-option value="">Tous</mat-option>
+              <mat-option *ngFor="let label of labels" [value]="label">
+                {{ label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button
+            mat-stroked-button
+            (click)="clearFilters()"
+            class="clear-filters-btn"
+          >
+            <mat-icon>clear_all</mat-icon>
+            <span class="btn-text">Effacer</span>
+          </button>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+          <div class="stat-item">
+            <mat-icon class="stat-icon">assignment</mat-icon>
+            <span class="stat-text">{{ totalItems }} tâche(s)</span>
+          </div>
+          <div class="stat-item">
+            <mat-icon class="stat-icon completed">check_circle</mat-icon>
+            <span class="stat-text">{{ getCompletedCount() }} terminée(s)</span>
+          </div>
+          <div class="stat-item">
+            <mat-icon class="stat-icon pending">schedule</mat-icon>
+            <span class="stat-text">{{ getPendingCount() }} en cours</span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Desktop Add Button -->
+  <div class="desktop-add-section">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="openAddDialog()"
+      class="desktop-add-btn"
+    >
+      <mat-icon>add_task</mat-icon>
+      Ajouter une tâche
+    </button>
+  </div>
+
+  <!-- Tasks Grid/List -->
+  <div class="tasks-container">
+    <!-- Desktop Table View -->
+    <mat-card class="table-card desktop-view" elevation="2">
+      <div class="table-header">
+        <h2>Liste des Tâches</h2>
+        <div class="view-toggle">
+          <mat-button-toggle-group
+            [(value)]="viewMode"
+            (change)="changeViewMode($event)"
+          >
+            <mat-button-toggle value="table">
+              <mat-icon>table_view</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="card">
+              <mat-icon>view_module</mat-icon>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+
+      <div class="table-container" *ngIf="viewMode === 'table'">
+        <table mat-table [dataSource]="paginatedTodos" class="todos-table">
+          <ng-container matColumnDef="status">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              class="header-cell status-col"
+            >
+              Statut
+            </th>
+            <td mat-cell *matCellDef="let todo" class="data-cell">
+              <mat-icon
+                [class]="todo.completed ? 'status-completed' : 'status-pending'"
+              >
+                {{ todo.completed ? "check_circle" : "schedule" }}
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="titre">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Tâche</th>
+            <td mat-cell *matCellDef="let todo" class="data-cell">
+              <div class="task-content">
+                <div class="task-title" [class.completed]="todo.completed">
+                  {{ todo.titre }}
+                </div>
+                <div class="task-description" *ngIf="todo.description">
+                  {{ todo.description }}
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="person">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">
+              Assigné à
+            </th>
+            <td mat-cell *matCellDef="let todo" class="data-cell">
+              <div class="person-info">
+                <div class="person-avatar">
+                  <mat-icon>person</mat-icon>
+                </div>
+                <div class="person-details">
+                  <div class="person-name">{{ todo.person.name }}</div>
+                  <div class="person-email">{{ todo.person.email }}</div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dates">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Dates</th>
+            <td mat-cell *matCellDef="let todo" class="data-cell">
+              <div class="dates-info">
+                <div class="date-row">
+                  <mat-icon class="date-icon">schedule</mat-icon>
+                  <span>{{ formatDate(todo.startDate) }}</span>
+                </div>
+                <div class="date-row" *ngIf="todo.endDate">
+                  <mat-icon class="date-icon" [class.completed]="todo.completed"
+                    >event</mat-icon
+                  >
+                  <span [class.completed]="todo.completed">{{
+                    formatDate(todo.endDate)
+                  }}</span>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="priority">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">
+              Priorité
+            </th>
+            <td mat-cell *matCellDef="let todo" class="data-cell">
+              <mat-chip [color]="getPriorityColor(todo.priority)" selected>
+                {{ todo.priority }}
+              </mat-chip>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="labels">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">
+              Technologies
+            </th>
+            <td mat-cell *matCellDef="let todo" class="data-cell">
+              <div class="labels-container">
+                <mat-chip *ngFor="let label of todo.labels" class="tech-chip">
+                  {{ label }}
+                </mat-chip>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">
+              Actions
+            </th>
+            <td mat-cell *matCellDef="let todo" class="data-cell">
+              <div class="actions-container">
+                <button
+                  mat-icon-button
+                  color="primary"
+                  (click)="toggleComplete(todo)"
+                  [matTooltip]="
+                    todo.completed
+                      ? 'Marquer comme non terminé'
+                      : 'Marquer comme terminé'
+                  "
+                >
+                  <mat-icon>{{ todo.completed ? "undo" : "check" }}</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  color="accent"
+                  (click)="openEditDialog(todo)"
+                  matTooltip="Modifier"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="deleteTodo(todo)"
+                  matTooltip="Supprimer"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="table-row"
+          ></tr>
+        </table>
+      </div>
+
+      <!-- Card View for Desktop -->
+      <div class="cards-grid desktop-cards" *ngIf="viewMode === 'card'">
+        <mat-card
+          *ngFor="let todo of paginatedTodos"
+          class="todo-card"
+          elevation="2"
+        >
+          <mat-card-header>
+            <div
+              mat-card-avatar
+              class="task-avatar"
+              [class.completed]="todo.completed"
+            >
+              <mat-icon>{{
+                todo.completed ? "check_circle" : "schedule"
+              }}</mat-icon>
+            </div>
+            <mat-card-title
+              class="card-title"
+              [class.completed]="todo.completed"
+            >
+              {{ todo.titre }}
+            </mat-card-title>
+            <mat-card-subtitle>
+              <mat-chip
+                [color]="getPriorityColor(todo.priority)"
+                selected
+                class="priority-chip"
+              >
+                {{ todo.priority }}
+              </mat-chip>
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p class="task-desc" *ngIf="todo.description">
+              {{ todo.description }}
+            </p>
+
+            <div class="card-person">
+              <mat-icon class="person-icon">person</mat-icon>
+              <div>
+                <div class="person-name">{{ todo.person.name }}</div>
+                <div class="person-email">{{ todo.person.email }}</div>
+              </div>
+            </div>
+
+            <div class="card-dates">
+              <div class="date-item">
+                <mat-icon>schedule</mat-icon>
+                <span>{{ formatDate(todo.startDate) }}</span>
+              </div>
+              <div class="date-item" *ngIf="todo.endDate">
+                <mat-icon>event</mat-icon>
+                <span>{{ formatDate(todo.endDate) }}</span>
+              </div>
+            </div>
+
+            <div class="card-labels">
+              <mat-chip
+                *ngFor="let label of todo.labels"
+                class="tech-chip-small"
+              >
+                {{ label }}
+              </mat-chip>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions class="card-actions">
+            <button mat-button color="primary" (click)="toggleComplete(todo)">
+              <mat-icon>{{ todo.completed ? "undo" : "check" }}</mat-icon>
+              {{ todo.completed ? "Réactiver" : "Terminer" }}
+            </button>
+            <button mat-button color="accent" (click)="openEditDialog(todo)">
+              <mat-icon>edit</mat-icon>
+              Modifier
+            </button>
+            <button mat-button color="warn" (click)="deleteTodo(todo)">
+              <mat-icon>delete</mat-icon>
+              Supprimer
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <!-- No Data Message -->
+      <div *ngIf="paginatedTodos.length === 0" class="no-data">
+        <mat-icon class="no-data-icon">assignment_late</mat-icon>
+        <h3>Aucune tâche trouvée</h3>
+        <p>Commencez par ajouter votre première tâche !</p>
+        <button mat-raised-button color="primary" (click)="openAddDialog()">
+          <mat-icon>add_task</mat-icon>
+          Ajouter une tâche
+        </button>
+      </div>
+
+      <!-- Pagination -->
+      <mat-paginator
+        *ngIf="paginatedTodos.length > 0"
+        [length]="totalItems"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[6, 12, 24]"
+        (page)="onPageChange($event)"
+        showFirstLastButtons
+        class="paginator"
+      >
+      </mat-paginator>
+    </mat-card>
+
+    <!-- Mobile Card View -->
+    <div class="mobile-view">
+      <div class="mobile-cards-container">
+        <mat-card
+          *ngFor="let todo of paginatedTodos"
+          class="mobile-todo-card"
+          elevation="2"
+        >
+          <div class="mobile-card-header">
+            <div class="status-priority">
+              <mat-icon
+                [class]="todo.completed ? 'status-completed' : 'status-pending'"
+              >
+                {{ todo.completed ? "check_circle" : "schedule" }}
+              </mat-icon>
+              <mat-chip
+                [color]="getPriorityColor(todo.priority)"
+                selected
+                class="mobile-priority"
+              >
+                {{ todo.priority }}
+              </mat-chip>
+            </div>
+            <div class="mobile-actions">
+              <button mat-icon-button (click)="toggleComplete(todo)">
+                <mat-icon>{{ todo.completed ? "undo" : "check" }}</mat-icon>
+              </button>
+              <button mat-icon-button [matMenuTriggerFor]="mobileMenu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #mobileMenu="matMenu">
+                <button mat-menu-item (click)="openEditDialog(todo)">
+                  <mat-icon>edit</mat-icon>
+                  Modifier
+                </button>
+                <button
+                  mat-menu-item
+                  (click)="deleteTodo(todo)"
+                  class="delete-menu-item"
+                >
+                  <mat-icon>delete</mat-icon>
+                  Supprimer
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+
+          <div class="mobile-card-content">
+            <h3 class="mobile-task-title" [class.completed]="todo.completed">
+              {{ todo.titre }}
+            </h3>
+            <p class="mobile-task-desc" *ngIf="todo.description">
+              {{ todo.description }}
+            </p>
+
+            <div class="mobile-person">
+              <mat-icon class="mobile-person-icon">person</mat-icon>
+              <div class="mobile-person-info">
+                <div class="mobile-person-name">{{ todo.person.name }}</div>
+                <div class="mobile-person-email">{{ todo.person.email }}</div>
+              </div>
+            </div>
+
+            <div class="mobile-dates">
+              <div class="mobile-date-item">
+                <mat-icon>schedule</mat-icon>
+                <span>{{ formatDate(todo.startDate) }}</span>
+              </div>
+              <div class="mobile-date-item" *ngIf="todo.endDate">
+                <mat-icon>event</mat-icon>
+                <span>{{ formatDate(todo.endDate) }}</span>
+              </div>
+            </div>
+
+            <div class="mobile-labels">
+              <mat-chip
+                *ngFor="let label of todo.labels"
+                class="mobile-tech-chip"
+              >
+                {{ label }}
+              </mat-chip>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+
+      <!-- Mobile No Data -->
+      <div *ngIf="paginatedTodos.length === 0" class="mobile-no-data">
+        <mat-icon class="mobile-no-data-icon">assignment_late</mat-icon>
+        <h3>Aucune tâche</h3>
+        <p>Ajoutez votre première tâche</p>
+      </div>
+
+      <!-- Mobile Pagination -->
+      <div class="mobile-pagination" *ngIf="paginatedTodos.length > 0">
+        <button
+          mat-stroked-button
+          [disabled]="pageIndex === 0"
+          (click)="previousPage()"
+          class="mobile-page-btn"
+        >
+          <mat-icon>chevron_left</mat-icon>
+          Précédent
+        </button>
+
+        <span class="mobile-page-info">
+          {{ pageIndex + 1 }} / {{ getTotalPages() }}
+        </span>
+
+        <button
+          mat-stroked-button
+          [disabled]="pageIndex >= getTotalPages() - 1"
+          (click)="nextPage()"
+          class="mobile-page-btn"
+        >
+          Suivant
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

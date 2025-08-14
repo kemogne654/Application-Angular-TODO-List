@@ -1,0 +1,159 @@
+.person-list-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.filters-card {
+  margin-bottom: 24px;
+
+  mat-card-title {
+    color: #1976d2;
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+}
+
+.filters-section {
+  .filter-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: end;
+    margin-bottom: 16px;
+
+    .search-field {
+      min-width: 300px;
+    }
+
+    .clear-filters-btn {
+      height: fit-content;
+    }
+  }
+
+  .action-row {
+    display: flex;
+    justify-content: flex-start;
+
+    .add-btn {
+      font-weight: 500;
+    }
+  }
+}
+
+.table-card {
+  .table-container {
+    overflow-x: auto;
+    margin-bottom: 16px;
+  }
+
+  .persons-table {
+    width: 100%;
+
+    .header-cell {
+      background-color: #f5f5f5;
+      font-weight: 600;
+      color: #333;
+      padding: 16px 12px;
+    }
+
+    .data-cell {
+      padding: 16px 12px;
+      vertical-align: top;
+    }
+
+    .table-row {
+      &:hover {
+        background-color: #f8f9fa;
+      }
+    }
+  }
+}
+
+.person-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.person-email {
+  color: #1976d2;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.person-phone {
+  color: #666;
+  font-family: "Roboto Mono", monospace;
+}
+
+.actions-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.no-data {
+  text-align: center;
+  padding: 48px 24px;
+  color: #666;
+
+  .no-data-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.paginator {
+  border-top: 1px solid #e0e0e0;
+  background-color: #fafafa;
+}
+
+@media (max-width: 768px) {
+  .person-list-container {
+    padding: 16px;
+  }
+
+  .filters-section .filter-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+
+    .search-field {
+      width: 100%;
+      min-width: unset;
+    }
+  }
+
+  .persons-table {
+    .data-cell,
+    .header-cell {
+      padding: 12px 8px;
+    }
+  }
+
+  .actions-container {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .persons-table {
+    font-size: 0.8rem;
+
+    .header-cell,
+    .data-cell {
+      padding: 8px 6px;
+    }
+  }
+}

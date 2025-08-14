@@ -1,0 +1,96 @@
+<div class="person-list-container">
+  <mat-card class="filters-card">
+    <mat-card-header>
+      <mat-card-title>Gestion des Personnes</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="filters-section">
+        <div class="filter-row">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Rechercher</mat-label>
+            <input matInput 
+                   [(ngModel)]="searchText" 
+                   (ngModelChange)="applyFilters()" 
+                   placeholder="Nom, email, téléphone...">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" (click)="clearFilters()" class="clear-filters-btn">
+            <mat-icon>clear</mat-icon>
+            Effacer
+          </button>
+        </div>
+
+        <div class="action-row">
+          <button mat-raised-button color="primary" (click)="openAddDialog()" class="add-btn">
+            <mat-icon>add</mat-icon>
+            Ajouter une personne
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="table-card">
+    <div class="table-container">
+      <table mat-table [dataSource]="paginatedPersons" class="persons-table">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="header-cell">Nom</th>
+          <td mat-cell *matCellDef="let person" class="data-cell">
+            <div class="person-name">{{person.name}}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef class="header-cell">Email</th>
+          <td mat-cell *matCellDef="let person" class="data-cell">
+            <div class="person-email">{{person.email}}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef class="header-cell">Téléphone</th>
+          <td mat-cell *matCellDef="let person" class="data-cell">
+            <div class="person-phone">{{person.phone}}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="header-cell">Actions</th>
+          <td mat-cell *matCellDef="let person" class="data-cell">
+            <div class="actions-container">
+              <button mat-icon-button 
+                      color="primary" 
+                      (click)="openEditDialog(person)"
+                      matTooltip="Modifier">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button 
+                      color="warn" 
+                      (click)="deletePerson(person)"
+                      matTooltip="Supprimer">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
+      </table>
+
+      <div *ngIf="paginatedPersons.length === 0" class="no-data">
+        <mat-icon class="no-data-icon">people</mat-icon>
+        <p>Aucune personne trouvée</p>
+      </div>
+    </div>
+
+    <mat-paginator [length]="totalItems"
+                   [pageSize]="pageSize"
+                   [pageSizeOptions]="[5, 10, 20]"
+                   (page)="onPageChange($event)"
+                   showFirstLastButtons
+                   class="paginator">
+    </mat-paginator>
+  </mat-card>
+</div>

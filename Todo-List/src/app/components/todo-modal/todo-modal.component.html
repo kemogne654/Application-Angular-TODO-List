@@ -1,0 +1,277 @@
+<div class="todo-modal">
+  <div class="modal-header">
+    <h2 mat-dialog-title class="modal-title">
+      <mat-icon class="title-icon">{{
+        isEdit ? "edit_note" : "add_task"
+      }}</mat-icon>
+      {{ isEdit ? "Modifier la tâche" : "Créer une nouvelle tâche" }}
+    </h2>
+    <button mat-icon-button (click)="onCancel()" class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content class="modal-content">
+    <form [formGroup]="todoForm" class="todo-form">
+      <!-- Title Section -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <mat-icon>title</mat-icon>
+          Informations générales
+        </h3>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Titre de la tâche *</mat-label>
+            <input
+              matInput
+              formControlName="titre"
+              placeholder="Ex: Développer interface utilisateur"
+              maxlength="100"
+            />
+            <mat-hint
+              >{{ todoForm.get("titre")?.value?.length || 0 }}/100</mat-hint
+            >
+            <mat-error
+              *ngIf="
+                todoForm.get('titre')?.errors && todoForm.get('titre')?.touched
+              "
+            >
+              {{ getFieldError("titre") }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              formControlName="description"
+              placeholder="Décrivez les détails de la tâche..."
+              rows="3"
+              maxlength="500"
+            ></textarea>
+            <mat-hint
+              >{{
+                todoForm.get("description")?.value?.length || 0
+              }}/500</mat-hint
+            >
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Assignment Section -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <mat-icon>person_pin</mat-icon>
+          Attribution
+        </h3>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Personne assignée *</mat-label>
+            <mat-select formControlName="personId">
+              <mat-option value="">Sélectionner une personne</mat-option>
+              <mat-option
+                *ngFor="let person of availablePersons"
+                [value]="person.id"
+              >
+                <div class="person-option">
+                  <mat-icon class="person-icon">person</mat-icon>
+                  <div class="person-details">
+                    <div class="person-name">{{ person.name }}</div>
+                    <div class="person-email">{{ person.email }}</div>
+                  </div>
+                </div>
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                todoForm.get('personId')?.errors &&
+                todoForm.get('personId')?.touched
+              "
+            >
+              Veuillez sélectionner une personne
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Dates Section -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <mat-icon>date_range</mat-icon>
+          Planification
+        </h3>
+
+        <div class="form-row dates-row">
+          <mat-form-field appearance="outline" class="date-field">
+            <mat-label>Date de début *</mat-label>
+            <input
+              matInput
+              [matDatepicker]="startPicker"
+              formControlName="startDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="startPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+            <mat-error
+              *ngIf="
+                todoForm.get('startDate')?.errors &&
+                todoForm.get('startDate')?.touched
+              "
+            >
+              La date de début est requise
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="date-field">
+            <mat-label>Date de fin (optionnelle)</mat-label>
+            <input
+              matInput
+              [matDatepicker]="endPicker"
+              formControlName="endDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="endPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+            <mat-error
+              *ngIf="
+                todoForm.get('endDate')?.errors &&
+                todoForm.get('endDate')?.touched
+              "
+            >
+              La date de fin doit être postérieure à la date de début
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Priority & Labels Section -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <mat-icon>flag</mat-icon>
+          Priorité et Technologies
+        </h3>
+
+        <div class="form-row priority-labels-row">
+          <mat-form-field appearance="outline" class="priority-field">
+            <mat-label>Priorité *</mat-label>
+            <mat-select formControlName="priority">
+              <mat-option value="">Sélectionner la priorité</mat-option>
+              <mat-option
+                *ngFor="let priority of priorities"
+                [value]="priority"
+              >
+                <div class="priority-option">
+                  <mat-chip
+                    [color]="getPriorityColor(priority)"
+                    selected
+                    disabled
+                  >
+                    {{ priority }}
+                  </mat-chip>
+                </div>
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                todoForm.get('priority')?.errors &&
+                todoForm.get('priority')?.touched
+              "
+            >
+              Veuillez sélectionner une priorité
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="labels-field">
+            <mat-label>Technologies utilisées *</mat-label>
+            <mat-select formControlName="labels" multiple>
+              <mat-option *ngFor="let label of availableLabels" [value]="label">
+                {{ label }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>Sélectionnez une ou plusieurs technologies</mat-hint>
+            <mat-error
+              *ngIf="
+                todoForm.get('labels')?.errors &&
+                todoForm.get('labels')?.touched
+              "
+            >
+              Sélectionnez au moins une technologie
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Selected Labels Preview -->
+        <div
+          class="selected-labels"
+          *ngIf="todoForm.get('labels')?.value?.length > 0"
+        >
+          <div class="labels-title">Technologies sélectionnées :</div>
+          <div class="labels-chips">
+            <mat-chip
+              *ngFor="let label of todoForm.get('labels')?.value"
+              class="selected-label-chip"
+              (removed)="removeLabel(label)"
+            >
+              {{ label }}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Section (Edit only) -->
+      <div class="form-section" *ngIf="isEdit">
+        <h3 class="section-title">
+          <mat-icon>task_alt</mat-icon>
+          Statut
+        </h3>
+
+        <div class="form-row">
+          <mat-checkbox formControlName="completed" class="status-checkbox">
+            <span class="status-text">Marquer comme terminée</span>
+          </mat-checkbox>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="modal-actions">
+    <div class="actions-left">
+      <button mat-button (click)="resetForm()" class="reset-btn" type="button">
+        <mat-icon>refresh</mat-icon>
+        Réinitialiser
+      </button>
+    </div>
+
+    <div class="actions-right">
+      <button mat-stroked-button (click)="onCancel()" class="cancel-btn">
+        <mat-icon>close</mat-icon>
+        Annuler
+      </button>
+
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onSave()"
+        [disabled]="todoForm.invalid || isSaving"
+        class="save-btn"
+      >
+        <mat-icon>{{ isEdit ? "save" : "add_task" }}</mat-icon>
+        <span *ngIf="!isSaving">{{
+          isEdit ? "Enregistrer" : "Créer la tâche"
+        }}</span>
+        <span *ngIf="isSaving">Enregistrement...</span>
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

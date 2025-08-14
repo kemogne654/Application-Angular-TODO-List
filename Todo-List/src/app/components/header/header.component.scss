@@ -1,0 +1,441 @@
+// header.component.scss
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  min-height: 70px;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+
+  &.mobile {
+    padding: 0 16px;
+    min-height: 64px;
+  }
+}
+
+.app-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    transform: translateY(-2px);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Desktop Navigation
+.navigation-tabs {
+  display: block;
+
+  ::ng-deep .mat-mdc-tab-nav-bar {
+    background: transparent;
+    border: none;
+    height: auto;
+
+    .mat-mdc-tab-link {
+      color: rgba(255, 255, 255, 0.85) !important;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      padding: 6px 12px;
+      margin: 0 2px;
+      border-radius: 16px;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      min-width: auto;
+      text-transform: capitalize;
+      letter-spacing: 0.2px;
+      overflow: hidden;
+      min-height: auto !important;
+      background: transparent !important;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        right: 1px;
+        bottom: 1px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.12) 0%,
+          rgba(255, 255, 255, 0.06) 100%
+        );
+        border-radius: 15px;
+        transform: scale(0);
+        transition: transform 0.3s ease;
+        z-index: -1;
+      }
+
+      &:hover {
+        color: white !important;
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+        &::before {
+          transform: scale(1);
+        }
+      }
+
+      // Active state
+      &.active-link,
+      &.current-page {
+        color: white !important;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.15) 0%,
+          rgba(255, 255, 255, 0.08) 100%
+        ) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        font-weight: 700;
+        transform: translateY(-1px);
+        padding: 6px 12px;
+        border-radius: 16px;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 1px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 16px;
+          height: 1.5px;
+          background: white;
+          border-radius: 1px;
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+}
+
+// Mobile Navigation
+.mobile-nav {
+  display: none;
+  align-items: center;
+
+  .hamburger-button {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 50% !important;
+    transition: all 0.3s ease;
+    width: 48px;
+    height: 48px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2) !important;
+      transform: scale(1.1);
+    }
+
+    &:focus {
+      outline: 2px solid rgba(255, 255, 255, 0.5);
+      outline-offset: 2px;
+    }
+
+    .mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      color: white;
+    }
+  }
+}
+
+// Mobile Menu Styles
+::ng-deep .mobile-menu {
+  .mat-mdc-menu-panel {
+    min-width: 180px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    background: white;
+    overflow: hidden;
+    margin-top: 8px;
+    padding: 4px 0;
+  }
+
+  .mat-mdc-menu-item {
+    height: 52px !important;
+    padding: 0 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin: 4px 8px;
+    position: relative;
+    overflow: hidden;
+    font-size: 15px !important;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 0;
+    }
+
+    &:hover:not(.active-menu-item) {
+      background: rgba(30, 60, 114, 0.06) !important;
+      transform: translateX(2px);
+
+      .mat-icon {
+        color: #1e3c72;
+        transform: scale(1.05);
+      }
+    }
+
+    &.active-menu-item {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+      color: white !important;
+      font-weight: 600;
+      transform: none;
+      border-radius: 8px;
+      margin: 4px 8px;
+
+      .mat-icon {
+        color: white !important;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 20px;
+        background: white;
+        border-radius: 0 1px 1px 0;
+        z-index: 2;
+      }
+    }
+
+    .mat-icon {
+      font-size: 22px !important;
+      width: 22px !important;
+      height: 22px !important;
+      color: #666 !important;
+      transition: all 0.3s ease;
+      z-index: 1;
+      position: relative;
+    }
+
+    span {
+      font-size: 16px !important;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      z-index: 1;
+      position: relative;
+    }
+  }
+}
+
+// Page background transitions
+::ng-deep {
+  body {
+    transition: background 0.5s ease;
+
+    &.todos-page {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    }
+
+    &.persons-page {
+      background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%) !important;
+    }
+
+    &.home-page {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
+    }
+  }
+}
+
+// Animations
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    width: 40px;
+  }
+  50% {
+    opacity: 0.6;
+    width: 50px;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Responsive breakpoints
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0 16px;
+    min-height: 64px;
+  }
+
+  .app-title {
+    font-size: 1.4rem;
+  }
+
+  .navigation-tabs {
+    display: none !important;
+  }
+
+  .mobile-nav {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 0 12px;
+    min-height: 56px;
+  }
+
+  .app-title {
+    font-size: 1.2rem;
+  }
+
+  .mobile-nav .hamburger-button {
+    width: 44px;
+    height: 44px;
+
+    .mat-icon {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+    }
+  }
+}
+
+// Override Material Angular default styles
+::ng-deep {
+  .mat-mdc-tab-nav-bar {
+    .mat-mdc-tab-link.mat-mdc-tab-label-active {
+      color: white !important;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.08) 100%
+      ) !important;
+      font-weight: 700 !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+      border-radius: 16px !important;
+    }
+
+    .mat-mdc-tab-link {
+      opacity: 1 !important;
+      border-radius: 16px !important;
+      min-height: auto !important;
+
+      &:not(.mat-mdc-tab-label-active) {
+        color: rgba(255, 255, 255, 0.85) !important;
+        background: transparent !important;
+      }
+
+      &:focus {
+        outline: 1px solid rgba(255, 255, 255, 0.5);
+        outline-offset: 1px;
+      }
+    }
+  }
+
+  .mat-mdc-tab-nav-bar .mat-mdc-tab-link-container {
+    height: auto !important;
+  }
+
+  .mdc-tab-indicator,
+  .mat-mdc-tab-ripple {
+    display: none !important;
+  }
+
+  // Menu trigger button styles
+  .mat-mdc-icon-button {
+    &.hamburger-button {
+      .mat-mdc-button-touch-target {
+        width: 48px !important;
+        height: 48px !important;
+      }
+    }
+  }
+
+  // Menu panel animation
+  .mat-mdc-menu-panel.mobile-menu {
+    animation: slideIn 0.3s ease-out;
+  }
+}
+
+// Focus states for accessibility
+.nav-link:focus,
+.hamburger-button:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 2px;
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .app-header {
+    background: #000;
+    border-bottom: 2px solid #fff;
+  }
+
+  .app-title,
+  .nav-link {
+    color: #fff !important;
+
+    &:hover {
+      background: #333 !important;
+    }
+  }
+
+  .hamburger-button {
+    background: #333 !important;
+    border: 1px solid #fff !important;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .app-title,
+  .nav-link,
+  .hamburger-button,
+  .mat-mdc-menu-item {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .nav-link {
+    &:hover {
+      transform: none !important;
+    }
+
+    &.active-link::after {
+      animation: none !important;
+    }
+  }
+}
